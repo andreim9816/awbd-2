@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
-import static com.example.patients.dto.input.ReqPatientDto.CNP_REGEX;
+import static com.example.domain.dto.input.ReqPatientDto.CNP_REGEX;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -29,17 +29,7 @@ public class Patient extends Person {
     @NotBlank(message = "CNP must be provided!")
     private String cnp;
 
-    @ManyToOne
-    @JoinColumn(name = "FK_DEPARTMENT_ID")
-    @ToString.Exclude
-    private Department department;
-
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Consult> consults;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "FK_ADDRESS_ID")
-    @ToString.Exclude
-    private Address address;
 }

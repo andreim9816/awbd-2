@@ -25,7 +25,4 @@ public class Doctor extends Person {
     @ToString.Exclude
     private List<Consult> consults;
 
-//    @ManyToOne
-//    @JoinColumn(name = "FK_DEPARTMENT_ID")
-//    private com.example.patients.model.Department department;
 }

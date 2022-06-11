@@ -12,12 +12,15 @@
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.release>11</maven.compiler.release>
         <spring.boot.version>2.7.0</spring.boot.version>
     </properties>
 
     <modules>
         <module>domain</module>
         <module>eureka</module>
+        <module>config-server</module>
+        <module>doctorservice</module>
     </modules>
 
     <dependencies>
@@ -36,6 +39,18 @@
             <version>${spring.boot.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.4.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.4.2.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -43,6 +58,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>11</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>
