@@ -1,6 +1,5 @@
 package com.example.domain.dto.input;
 
-import com.example.domain.dto.PersonDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,7 +8,7 @@ import javax.validation.constraints.Pattern;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ReqPatientDto extends PersonDto {
+public class ReqPatientDto extends ReqPersonDto {
 
     public static final String CNP_REGEX = "^[1-9][0-9]{12}$";
 

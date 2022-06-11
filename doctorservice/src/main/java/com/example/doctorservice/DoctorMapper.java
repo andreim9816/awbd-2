@@ -19,7 +19,7 @@ public interface DoctorMapper {
 
     Doctor toEntity(ReqDoctorDto dto);
 
-    Doctor toEntityForCreate(Long depId, ReqDoctorDto dto);
+    Doctor toEntityForCreate(ReqDoctorDto dto);
 
     Doctor update(ReqDoctorUpdateDto req, @MappingTarget Doctor entity);
 }

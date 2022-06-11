@@ -1,6 +1,7 @@
 package com.example.doctorservice;
 
 import com.example.domain.Doctor;
+import com.example.domain.dto.input.update.ReqDoctorUpdateDto;
 import com.example.domain.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -9,18 +10,20 @@ import java.util.List;
 @Service
 public class DoctorService {
 
-    private final DoctorRepository doctorRepository;
+    private final DoctorRepository repository;
+    private final DoctorMapper mapper;
 
-    public DoctorService(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
+    public DoctorService(DoctorRepository doctorRepository, DoctorMapper mapper) {
+        this.repository = doctorRepository;
+        this.mapper = mapper;
     }
 
     public List<Doctor> getAll() {
-        return doctorRepository.findAll();
+        return repository.findAll();
     }
 
     public Doctor getById(Long id) {
-        return doctorRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException.builder()
                         .entityId(id)
                         .entityType("Doctor")
@@ -29,20 +32,20 @@ public class DoctorService {
     }
 
     public Boolean checkIfDoctorExists(Long id) {
-        return doctorRepository.findById(id).isPresent();
+        return repository.findById(id).isPresent();
     }
 
     public Doctor saveDoctor(Doctor doctor) {
-        return doctorRepository.save(doctor);
+        return repository.save(doctor);
     }
 
-//    public Doctor updateDoctor(ReqDoctorUpdateDto reqDoctorUpdateDto, Doctor doctor) {
-//        Doctor updatedDoctor = doctorMapper.update(reqDoctorUpdateDto, doctor);
-//
-//        return saveDoctor(updatedDoctor);
-//    }
+    public Doctor updateDoctor(ReqDoctorUpdateDto reqDoctorUpdateDto, Doctor doctor) {
+        Doctor updatedDoctor = mapper.update(reqDoctorUpdateDto, doctor);
+
+        return saveDoctor(updatedDoctor);
+    }
 
     public void deleteDoctorById(Long id) {
-        doctorRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }
