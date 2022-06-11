@@ -1,5 +1,6 @@
 package com.example.domain.dto.input;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.MappedSuperclass;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import static com.example.domain.dto.PersonDto.NAME_REGEX;
 
 @MappedSuperclass
+@Data
 public class ReqPersonDto {
 
     @Length(min = 3, message = "First name should have minimum 3 letters!")
