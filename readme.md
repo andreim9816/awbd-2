@@ -2,6 +2,11 @@
 
 Spring Boot project that shows how microservices interact with each other.
 
+# Prerequisites
+
+* Java 11
+* Maven 3.8.4
+
 # Technologies
 
 * Spring Boot
