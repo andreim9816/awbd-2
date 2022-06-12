@@ -6,8 +6,9 @@ Spring Boot project that shows how microservices interact with each other.
 
 * Spring Boot
 * Maven
-* Eureka Service Discovery
+* Eureka Service
 * Spring Cloud Config Server
+    * Config server URI -> https://github.com/andreim9816/config-files.git
 * Feign Rest Client
 * H2 Database
 * Mapstruct
@@ -29,3 +30,7 @@ mvn clean install -DskipTests
 * Patient
 * Consult
 * Medication
+
+# Profiles:
+
+All microservices should run with the `dev` profile
