@@ -1,5 +1,6 @@
 package com.example.doctorservice;
 
+import com.example.doctorservice.constraint.annotation.ValidDoctor;
 import com.example.domain.Doctor;
 import com.example.domain.dto.DoctorDto;
 import com.example.domain.dto.input.ReqDoctorDto;
@@ -83,7 +84,7 @@ public class DoctorController {
             method = "DELETE",
             summary = "Delete a doctor"
     )
-    public void deleteDoctor(@PathVariable("doctor-id") /*@ValidDoctor*/ Long doctorId) {
+    public void deleteDoctor(@PathVariable("doctor-id") @ValidDoctor Long doctorId) {
         service.deleteDoctorById(doctorId);
     }
 }

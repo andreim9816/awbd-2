@@ -1,4 +1,4 @@
-package com.example.doctorservice;
+package com.example.patientservice;
 
 import com.example.domain.exception.CustomException;
 import com.example.domain.exception.EntityNotFoundException;
@@ -15,8 +15,8 @@ import javax.validation.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ControllerAdvice(basePackages = {"com.example.doctorservice"})
-public class GlobalExceptionAdvice {
+@ControllerAdvice(basePackages = {"com.example.patientservice"})
+public class ExceptionControllerAdvice {
 
     private static final String DEFAULT_MESSAGE = "Something went wrong. Please try again later!";
     private static final String BAD_REQUEST_MESSAGE = "Invalid parameters!";

@@ -21,6 +21,7 @@
         <module>eureka</module>
         <module>config-server</module>
         <module>doctorservice</module>
+        <module>patientservice</module>
     </modules>
 
     <dependencies>
