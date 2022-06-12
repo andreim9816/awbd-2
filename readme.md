@@ -42,5 +42,4 @@ All microservices should run with the `dev` profile
 
 # Running
 
-For running the project, first run the `config-server` and `eureka` microservices. Now that they are running, you can
-run the "backend logic" microservices like `patient-service`, `doctor-service` etc in any order you want.
+For running the project, first start the `config-server` and `eureka` microservices. Then, you can run the "backend logic" microservices like `patient-service`, `doctor-service` etc in any order you want.
