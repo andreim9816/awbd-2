@@ -2,7 +2,7 @@
 
 Spring Boot project that shows how microservices interact with each other.
 
-# Technologies:
+# Technologies
 
 * Spring Boot
 * Maven
@@ -15,7 +15,7 @@ Spring Boot project that shows how microservices interact with each other.
 * Lombok
 * HATEOAS
 * Swagger UI
-    * DoctorService  -> http://localhost:8081/swagger-ui/index.html
+    * DoctorService -> http://localhost:8081/swagger-ui/index.html
     * PatientService -> http://localhost:8082/swagger-ui/index.html
 
 # Build
@@ -31,6 +31,6 @@ mvn clean install -DskipTests
 * Consult
 * Medication
 
-# Profiles:
+# Profiles
 
 All microservices should run with the `dev` profile
