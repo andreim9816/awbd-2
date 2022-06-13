@@ -29,7 +29,7 @@ public class Medication {
     private Integer quantity;
 
     @ManyToMany
-    @JoinTable(name = "Prescription",
+    @JoinTable(name = "PRESCRIPTION",
             joinColumns = @JoinColumn(name = "MEDICATION_ID"),
             inverseJoinColumns = @JoinColumn(name = "CONSULT_ID"))
     @ToString.Exclude

@@ -37,7 +37,7 @@ public class Consult {
     private Patient patient;
 
     @ManyToMany
-    @JoinTable(name = "Prescription",
+    @JoinTable(name = "PRESCRIPTION",
             joinColumns = @JoinColumn(name = "CONSULT_ID"),
             inverseJoinColumns = @JoinColumn(name = "MEDICATION_ID"))
     @ToString.Exclude
