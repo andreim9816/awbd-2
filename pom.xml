@@ -22,6 +22,8 @@
         <module>config-server</module>
         <module>doctorservice</module>
         <module>patientservice</module>
+        <module>medicationservice</module>
+        <module>consultservice</module>
     </modules>
 
     <dependencies>
