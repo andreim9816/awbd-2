@@ -6,19 +6,6 @@ metadata:
     app: doctor-service
 spec:
   replicas: 2
-#  limits:
-#    - default:
-#        cpu: 600m
-#        memory: 100Mib
-#      defaultRequest:
-#        cpu: 100m
-#        memory: 50Mib
-#      max:
-#        cpu: 100m
-#        memory: 200Mib
-#      min:
-#        cpu: 10m
-#        memory: 10Mib
   selector:
     matchLabels:
       app: doctor-service
@@ -30,13 +17,6 @@ spec:
       containers:
         - name: doctor
           image: lauracozma/doctor-service:0.0.1-SNAPSHOT
-          resources:
-            requests:
-              memory: "100Mi"
-            limits:
-              memory: "1500Mi"
-          command: ["stress"]
-          args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -51,7 +31,7 @@ spec:
                 configMapKeyRef:
                   name: awbd-configmap
                   key: SPRING_PROFILES_ACTIVE
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: eureka.client.service-url.defaultZone
               valueFrom:
                 configMapKeyRef:
                   name: awbd-configmap

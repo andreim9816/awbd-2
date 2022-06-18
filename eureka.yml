@@ -19,23 +19,18 @@ spec:
           image: lauracozma/eureka:0.0.1-SNAPSHOT
           imagePullPolicy: Always
           ports:
-          - containerPort: 8071
+            - containerPort: 8071
           env:
-          - name: SPRING_CONFIG_IMPORT
-            valueFrom:
-              configMapKeyRef:
-                name: awbd-configmap
-                key: SPRING_CONFIG_IMPORT
-          - name: SPRING_PROFILES_ACTIVE
-            valueFrom:
-              configMapKeyRef:
-                name: awbd-configmap
-                key: SPRING_PROFILES_ACTIVE
-          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-            valueFrom:
-              configMapKeyRef:
-                name: awbd-configmap
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_CONFIG_IMPORT
+            - name: eureka.client.service-url.defaultZone
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
 
 ---
 

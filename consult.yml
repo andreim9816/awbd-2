@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: patient-deployment
+  name: consult-deployment
   labels:
-    app: patient-service
+    app: consult-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: patient-service
+      app: consult-service
   template:
     metadata:
       labels:
-        app: patient-service
+        app: consult-service
     spec:
       containers:
-        - name: patient
-          image: lauracozma/patient-service:0.0.1-SNAPSHOT
+        - name: consult
+          image: lauracozma/consult-service:0.0.1-SNAPSHOT
           imagePullPolicy: Always
           ports:
-            - containerPort: 8082
+            - containerPort: 8083
           env:
             - name: SPRING_CONFIG_IMPORT
               valueFrom:
@@ -42,12 +42,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: patient-service
+  name: consult-service
 spec:
   selector:
-    app: patient-service
+    app: consult-service
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8082
-      targetPort: 8082
+      port: 8083
+      targetPort: 8083

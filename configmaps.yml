@@ -5,4 +5,4 @@ metadata:
 data:
   SPRING_PROFILES_ACTIVE: dev
   SPRING_CONFIG_IMPORT: configserver:http://configserver-service:8070/
-  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8071/eureka
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8071/eureka/
