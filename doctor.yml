@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctor-deployment
+  labels:
+    app: doctor-service
+spec:
+  replicas: 2
+#  limits:
+#    - default:
+#        cpu: 600m
+#        memory: 100Mib
+#      defaultRequest:
+#        cpu: 100m
+#        memory: 50Mib
+#      max:
+#        cpu: 100m
+#        memory: 200Mib
+#      min:
+#        cpu: 10m
+#        memory: 10Mib
+  selector:
+    matchLabels:
+      app: doctor-service
+  template:
+    metadata:
+      labels:
+        app: doctor-service
+    spec:
+      containers:
+        - name: doctor
+          image: lauracozma/doctor-service:0.0.1-SNAPSHOT
+          resources:
+            requests:
+              memory: "100Mi"
+            limits:
+              memory: "1500Mi"
+          command: ["stress"]
+          args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_PROFILES_ACTIVE
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctor-service
+spec:
+  selector:
+    app: doctor-service
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
