@@ -15,13 +15,15 @@ Spring Boot project that shows how microservices interact with each other.
 * Spring Cloud Config Server
     * Config server URI -> https://github.com/andreim9816/config-files.git
 * Feign Rest Client
-* H2 Database
+* MySQL Database
 * Mapstruct
 * Lombok
 * HATEOAS
 * Swagger UI
     * DoctorService -> http://localhost:8081/swagger-ui/index.html
     * PatientService -> http://localhost:8082/swagger-ui/index.html
+    * ConsultService -> http://localhost:8083/swagger-ui/index.html#/
+    * MedicationService -> http://localhost:8084/swagger-ui/index.html#/
 
 # Build
 
