@@ -73,3 +73,8 @@ kubectl apply doctor.yml
 kubectl delete deployment doctor-deployment
 kubectl delete service doctor-service
 ```
+
+## Util links: 
+
+1. We have encountered the following problem: https://github.com/spring-cloud/spring-cloud-netflix/issues/2541
+2. How to deploy a mysql database: https://phoenixnap.com/kb/kubernetes-mysql and https://justgiveacar.medium.com/spring-boot-micro-services-deployement-on-kubernetes-76c1d298c1f.
