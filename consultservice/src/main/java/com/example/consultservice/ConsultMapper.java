@@ -18,7 +18,6 @@ public interface ConsultMapper {
 
     ConsultDto toDto(Consult entity);
 
-
     Consult toEntity(ReqConsultDto dto);
 
     Consult update(Consult req, @MappingTarget Consult entity);

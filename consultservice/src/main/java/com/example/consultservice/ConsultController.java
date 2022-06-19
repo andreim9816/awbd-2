@@ -12,6 +12,7 @@ import com.example.domain.dto.MedicationDto;
 import com.example.domain.dto.PatientDto;
 import com.example.domain.dto.input.ReqConsultDto;
 import com.example.patientservice.constraint.annotation.ValidPatient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,7 @@ public class ConsultController {
     )
     public ConsultDto getById(@PathVariable("consult-id") Long consultId) {
 
+        System.out.println("ID GET By");
         return consultAssembler.toModel(consultService.getConsultById(consultId));
     }
 
@@ -127,11 +129,18 @@ public class ConsultController {
             method = "POST",
             summary = "Save a new consult"
     )
+    @CircuitBreaker(name="doctorPacientForConsult", fallbackMethod = "saveConsultFallback")
     public ConsultDto saveConsult(@RequestBody @Valid ReqConsultDto reqConsult) {
-
         Consult savedConsult = consultService.saveConsult(feignForConsult(reqConsult));
 
         return consultAssembler.toModel(savedConsult);
+    }
+
+    private ConsultDto saveConsultFallback(ReqConsultDto reqConsult, Throwable throwable) {
+        Consult consult = consultMapper.toEntity(reqConsult);
+        Consult savedConsult = consultService.saveConsult(consult);
+
+        return consultMapper.toDto(savedConsult);
     }
 
     @PutMapping("/{consult-id}")
@@ -139,12 +148,21 @@ public class ConsultController {
             method = "PUT",
             summary = "Update a consult"
     )
+    @CircuitBreaker(name="doctorPacientForConsult", fallbackMethod = "updateConsultFallback")
     public ConsultDto updateConsult(@PathVariable("consult-id") Long consultId,
                                     @RequestBody @Valid ReqConsultDto reqConsult) {
 
         Consult consultToBeUpdated = consultService.getConsultById(consultId);
         Consult updatedConsult = consultService.updateConsult(feignForConsult(reqConsult), consultToBeUpdated);
         return consultAssembler.toModel(updatedConsult);
+    }
+
+    private ConsultDto updateConsultFallback(Long consultId, ReqConsultDto reqConsult, Throwable throwable) {
+        Consult consultToBeUpdated = consultService.getConsultById(consultId);
+        Consult consult = consultMapper.toEntity(reqConsult);
+        Consult updatedConsult = consultService.updateConsult(consult, consultToBeUpdated);
+
+        return consultMapper.toDto(updatedConsult);
     }
 
     @DeleteMapping("/{consult-id}")
