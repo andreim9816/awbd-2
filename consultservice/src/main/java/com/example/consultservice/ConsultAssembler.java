@@ -1,9 +1,9 @@
 package com.example.consultservice;
 
+import com.example.doctorservice.DoctorController;
 import com.example.domain.Consult;
-import com.example.domain.Doctor;
 import com.example.domain.dto.ConsultDto;
-import com.example.domain.dto.DoctorDto;
+import com.example.patientservice.PatientController;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +24,8 @@ public class ConsultAssembler implements RepresentationModelAssembler<Consult, C
         ConsultDto dto = consultMapper.toDto(entity);
 
         dto.add(linkTo(methodOn(ConsultController.class).getById(entity.getId())).withSelfRel());
+        dto.add(linkTo(methodOn(DoctorController.class).getById(entity.getDoctor().getId())).withRel("doctor"));
+        dto.add(linkTo(methodOn(PatientController.class).getById(entity.getPatient().getId())).withRel("patient"));
 //        dto.add(linkTo(methodOn(DoctorController.class).getAllConsultsOfDoctor(entity.getId())).withRel("consults"));
 
 

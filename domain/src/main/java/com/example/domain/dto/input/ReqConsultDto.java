@@ -13,13 +13,9 @@ public class ReqConsultDto {
 
     private String comment;
 
-    //    @ValidDoctor
     private Long doctorId;
 
-    //    @ValidPatient
     private Long patientId;
 
-    private List<
-            //            @ValidMedication
-            Long> medicationIds;
+    private List<Long> medicationIds;
 }
