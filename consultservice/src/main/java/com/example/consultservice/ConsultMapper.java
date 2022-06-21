@@ -21,5 +21,5 @@ public interface ConsultMapper {
 
     Consult toEntity(ReqConsultDto dto);
 
-    Consult update(ReqConsultDto req, @MappingTarget Consult entity);
+    Consult update(Consult req, @MappingTarget Consult entity);
 }

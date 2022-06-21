@@ -42,10 +42,10 @@ public class ConsultService {
         return consultRepository.getConsultsByDoctorIdAndPatientId(doctorId, patientId);
     }
 
-    public Consult updateConsult(ReqConsultDto reqConsultDto, Consult consult) {
-        Consult upadatedConsult = consultMapper.update(reqConsultDto, consult);
+    public Consult updateConsult(Consult consult, Consult consultToBeUpdated) {
+        Consult updatedConsult = consultMapper.update(consult, consultToBeUpdated);
 
-        return saveConsult(upadatedConsult);
+        return saveConsult(updatedConsult);
     }
 
     public Consult saveConsult(Consult consult) {
