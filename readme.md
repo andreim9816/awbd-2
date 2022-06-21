@@ -79,6 +79,12 @@ Microservices use hateoas for more documentation
 
 ![configuration](./docs/hateoas.png)
 
+# Error handling
+
+For error handling, the `@ControllerAdvice` annotation was used
+
+![configuration](./docs/error_handling.png)
+
 # Spring Cloud Config
 
 The project uses `Spring Cloud Config` for project properties (see `config-server` module). The default branch is `main`
