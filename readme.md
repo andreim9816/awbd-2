@@ -100,6 +100,12 @@ By configuring each microservice with Zipkin, we can see the metrics at `http://
 ## Feign Client
 We used Feign Client to connect the Consult microservice with the other microservices: Pacient, Doctor and Medication. For each of these three microservices we have created an interface (ex.: MedicationServiceProxy) with one findById method. We use them when we want to create a new consult and we need a pacient, a doctor and a list of medications.
 
-![gcc](./docs/Screenshot 2022-06-21 at 18.36.45.png)
+![gcc](./docs/feign.png)
 
 ## Resilience4j
+We used Circuit Breaker for saveConsult and updateConsult methods, which depend on the other microservices. We have set a minimum number of calls to 5 and a failure rate threshold of 70.
+
+![gcc](./docs/properties.png)
+
+We have also created a fallback method for both save and update methods.
+![gcc](./docs/fallback.png)
