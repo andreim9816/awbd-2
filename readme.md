@@ -68,6 +68,17 @@ All microservices should run with the `dev` profile
 For running the project, first start the `config-server` and `eureka` microservices. Then, you can run the "backend
 logic" microservices like `patient-service`, `doctor-service` etc in any order you want.
 
+# Swagger UI
+
+The endpoints and documentation can be accessed via `Swagger`
+![configuration](./docs/swagger.png)
+
+# Hateoas
+
+Microservices use hateoas for more documentation
+
+![configuration](./docs/hateoas.png)
+
 # Spring Cloud Config
 
 The project uses `Spring Cloud Config` for project properties (see `config-server` module). The default branch is `main`
