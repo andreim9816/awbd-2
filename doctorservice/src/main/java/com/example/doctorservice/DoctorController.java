@@ -7,6 +7,8 @@ import com.example.domain.dto.input.ReqDoctorDto;
 import com.example.domain.dto.input.update.ReqDoctorUpdateDto;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class DoctorController {
     private final DoctorService service;
     private final DoctorAssembler assembler;
     private final DoctorMapper mapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorController.class.getName());
 
     @Autowired
     public DoctorController(DoctorService service, DoctorAssembler assembler, DoctorMapper mapper) {
@@ -39,6 +42,7 @@ public class DoctorController {
             summary = "Get all doctors"
     )
     public List<DoctorDto> getAll() {
+        LOGGER.info("Doctors - get all");
         return service.getAll().stream().map(assembler::toModel).collect(Collectors.toList());
     }
 
@@ -48,6 +52,7 @@ public class DoctorController {
             summary = "Get a doctor by ID"
     )
     public DoctorDto getById(@PathVariable("doctor-id") Long doctorId) {
+        LOGGER.info("Doctors - get by id");
         return assembler.toModel(service.getById(doctorId));
     }
 
@@ -57,7 +62,7 @@ public class DoctorController {
             summary = "Save a new doctor"
     )
     public DoctorDto saveDoctor(@RequestBody @Valid ReqDoctorDto reqDoctor) {
-
+        LOGGER.info("Doctors - save doctor");
         Doctor doctor = mapper.toEntityForCreate(reqDoctor);
         Doctor savedDoctor = service.saveDoctor(doctor);
 
@@ -71,7 +76,7 @@ public class DoctorController {
     )
     public DoctorDto updateDoctor(@PathVariable("doctor-id") Long doctorId,
                                   @RequestBody @Valid ReqDoctorUpdateDto reqDoctor) {
-
+        LOGGER.info("Doctors - update doctor");
         Doctor doctor = service.getById(doctorId);
         Doctor updatedDoctor = service.updateDoctor(reqDoctor, doctor);
 
@@ -85,6 +90,7 @@ public class DoctorController {
             summary = "Delete a doctor"
     )
     public void deleteDoctor(@PathVariable("doctor-id") @ValidDoctor Long doctorId) {
+        LOGGER.info("Doctors - delete doctor");
         service.deleteDoctorById(doctorId);
     }
 }
