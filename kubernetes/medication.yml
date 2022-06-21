@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medication-deployment
+  labels:
+    app: medication-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: medication-service
+  template:
+    metadata:
+      labels:
+        app: medication-service
+    spec:
+      containers:
+        - name: medication
+          image: lauracozma/medication-service:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_PROFILES_ACTIVE
+            - name: eureka.client.service-url.defaultZone
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: awbd-configmap
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: medication-service
+spec:
+  selector:
+    app: medication-service
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8084
+      targetPort: 8084
