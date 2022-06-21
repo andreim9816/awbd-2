@@ -100,4 +100,6 @@ By configuring each microservice with Zipkin, we can see the metrics at `http://
 ## Feign Client
 We used Feign Client to connect the Consult microservice with the other microservices: Pacient, Doctor and Medication. For each of these three microservices we have created an interface (ex.: MedicationServiceProxy) with one findById method. We use them when we want to create a new consult and we need a pacient, a doctor and a list of medications.
 
+![gcc](./docs/Screenshot 2022-06-21 at 18.36.45.png)
+
 ## Resilience4j
