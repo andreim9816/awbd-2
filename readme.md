@@ -15,6 +15,7 @@ Spring Boot project that shows how microservices interact with each other.
 * Spring Cloud Config Server
     * Config server URI -> https://github.com/andreim9816/config-files.git
 * Feign Rest Client
+* Resilience4j
 * MySQL Database
 * Mapstruct
 * Lombok
@@ -95,3 +96,8 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
 By configuring each microservice with Zipkin, we can see the metrics at `http://localhost:9411/zipkin/`.
+
+## Feign Client
+We used Feign Client to connect the Consult microservice with the other microservices: Pacient, Doctor and Medication. For each of these three microservices we have created an interface (ex.: MedicationServiceProxy) with one findById method. We use them when we want to create a new consult and we need a pacient, a doctor and a list of medications.
+
+## Resilience4j
