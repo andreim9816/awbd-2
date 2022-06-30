@@ -1,7 +1,6 @@
 package com.example.consultservice;
 
 import com.example.consultservice.constraint.annotation.ValidConsult;
-import com.example.doctorservice.constraint.annotation.ValidDoctor;
 import com.example.domain.Consult;
 import com.example.domain.Doctor;
 import com.example.domain.Medication;
@@ -11,7 +10,6 @@ import com.example.domain.dto.DoctorDto;
 import com.example.domain.dto.MedicationDto;
 import com.example.domain.dto.PatientDto;
 import com.example.domain.dto.input.ReqConsultDto;
-import com.example.patientservice.constraint.annotation.ValidPatient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +31,6 @@ public class ConsultController {
 
     private final ConsultService consultService;
     private final ConsultMapper consultMapper;
-    private final ConsultAssembler consultAssembler;
     private final DoctorServiceProxy doctorServiceProxy;
     private final PatientServiceProxy patientServiceProxy;
     private final MedicationServiceProxy medicationServiceProxy;
@@ -42,12 +39,11 @@ public class ConsultController {
     private final MedicationMapper medicationMapper;
 
     @Autowired
-    public ConsultController(ConsultService consultService, ConsultMapper consultMapper, ConsultAssembler consultAssembler,
-                             DoctorServiceProxy doctorServiceProxy, PatientServiceProxy patientServiceProxy,
-                             MedicationServiceProxy medicationServiceProxy, DoctorMapper doctorMapper, PatientMapper patientMapper, MedicationMapper medicationMapper) {
+    public ConsultController(ConsultService consultService, ConsultMapper consultMapper, DoctorServiceProxy doctorServiceProxy,
+                             PatientServiceProxy patientServiceProxy, MedicationServiceProxy medicationServiceProxy,
+                             DoctorMapper doctorMapper, PatientMapper patientMapper, MedicationMapper medicationMapper) {
         this.consultService = consultService;
         this.consultMapper = consultMapper;
-        this.consultAssembler = consultAssembler;
         this.doctorServiceProxy = doctorServiceProxy;
         this.patientServiceProxy = patientServiceProxy;
         this.medicationServiceProxy = medicationServiceProxy;
@@ -64,7 +60,7 @@ public class ConsultController {
     public List<ConsultDto> getAll() {
 
         return consultService.getAllConsults().stream()
-                .map(consultAssembler::toModel)
+                .map(consultMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -74,7 +70,7 @@ public class ConsultController {
             summary = "Get all consults between patient and doctor"
     )
     public List<ConsultDto> getAllConsultsForDoctorAndPatient(@RequestParam("doctorId") Long doctorId,
-                                                                              @RequestParam("patientId") Long patientId) {
+                                                              @RequestParam("patientId") Long patientId) {
 
         List<ConsultDto> result = new ArrayList<>();
 
@@ -82,7 +78,7 @@ public class ConsultController {
 
         if (consults != null) {
             result = consults.stream()
-                    .map(consultAssembler::toModel)
+                    .map(consultMapper::toDto)
                     .collect(Collectors.toList());
         }
         return result;
@@ -96,17 +92,16 @@ public class ConsultController {
     public ConsultDto getById(@PathVariable("consult-id") Long consultId) {
 
         System.out.println("ID GET By");
-        return consultAssembler.toModel(consultService.getConsultById(consultId));
+        return consultMapper.toDto(consultService.getConsultById(consultId));
     }
 
-    public Consult feignForConsult(ReqConsultDto reqConsult){
+    public Consult feignForConsult(ReqConsultDto reqConsult) {
         List<Medication> medicationList = new ArrayList<>();
         Long doctorId = reqConsult.getDoctorId();
         Long patientId = reqConsult.getPatientId();
         List<Long> ids = reqConsult.getMedicationIds();
 
-        for (Long id:ids)
-        {
+        for (Long id : ids) {
             MedicationDto medicationDto = medicationServiceProxy.findById(id);
             Medication medication = medicationMapper.toEntity(medicationDto);
             medicationList.add(medication);
@@ -124,16 +119,17 @@ public class ConsultController {
         consult.setMedications(medicationList);
         return consult;
     }
+
     @PostMapping
     @Operation(
             method = "POST",
             summary = "Save a new consult"
     )
-    @CircuitBreaker(name="doctorPacientForConsult", fallbackMethod = "saveConsultFallback")
+    @CircuitBreaker(name = "doctorPacientForConsult", fallbackMethod = "saveConsultFallback")
     public ConsultDto saveConsult(@RequestBody @Valid ReqConsultDto reqConsult) {
         Consult savedConsult = consultService.saveConsult(feignForConsult(reqConsult));
 
-        return consultAssembler.toModel(savedConsult);
+        return consultMapper.toDto(savedConsult);
     }
 
     private ConsultDto saveConsultFallback(ReqConsultDto reqConsult, Throwable throwable) {
@@ -148,13 +144,13 @@ public class ConsultController {
             method = "PUT",
             summary = "Update a consult"
     )
-    @CircuitBreaker(name="doctorPacientForConsult", fallbackMethod = "updateConsultFallback")
+    @CircuitBreaker(name = "doctorPacientForConsult", fallbackMethod = "updateConsultFallback")
     public ConsultDto updateConsult(@PathVariable("consult-id") Long consultId,
                                     @RequestBody @Valid ReqConsultDto reqConsult) {
 
         Consult consultToBeUpdated = consultService.getConsultById(consultId);
         Consult updatedConsult = consultService.updateConsult(feignForConsult(reqConsult), consultToBeUpdated);
-        return consultAssembler.toModel(updatedConsult);
+        return consultMapper.toDto(updatedConsult);
     }
 
     private ConsultDto updateConsultFallback(Long consultId, ReqConsultDto reqConsult, Throwable throwable) {
