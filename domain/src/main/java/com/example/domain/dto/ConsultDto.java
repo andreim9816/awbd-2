@@ -18,4 +18,10 @@ public class ConsultDto extends RepresentationModel<ConsultDto> {
     private String symptoms;
 
     private String comment;
+
+    private DoctorDto doctor;
+
+    private PatientDto patient;
+
+    private List<MedicationDto> medications;
 }
